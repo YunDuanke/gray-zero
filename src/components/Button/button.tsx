@@ -1,4 +1,5 @@
 import React, { FC, ButtonHTMLAttributes, AnchorHTMLAttributes } from "react";
+import classNames from "classnames";
 
 // 定义按钮尺寸和类型
 export type ButtonSize = "lg" | "sm";
@@ -22,13 +23,27 @@ type AnchorButtonProps = BaseButtonProps & AnchorHTMLAttributes<HTMLElement>; //
 export type ButtonProps = Partial<NativeButtonProps & AnchorButtonProps>; // ts高级类型Partial: 用于将对象类型中的所有属性变为可选属性
 
 export const Button: FC<ButtonProps> = (props) => {
-  const { btnType, className, size, children, href, ...restProps } = props;
-
-  return (
-    <a href={href} {...restProps}>
-      {children}
-    </a>
-  );
+  const { btnType, className, size, children, href, disabled, ...restProps } =
+    props;
+  // btn, btn-lg, btn-primary
+  const classes = classNames("btn", className, {
+    [`btn-${btnType}`]: btnType,
+    [`btn-${size}`]: size,
+    disabled: btnType === "link" && disabled,
+  });
+  if (btnType === "link" && href) {
+    return (
+      <a className={classes} href={href} {...restProps}>
+        {children}
+      </a>
+    );
+  } else {
+    return (
+      <button className={classes} disabled={disabled} {...restProps}>
+        {children}
+      </button>
+    );
+  }
 };
 
 Button.defaultProps = {

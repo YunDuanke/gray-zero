@@ -1,27 +1,20 @@
 import React from "react";
-import logo from "./logo.svg";
-import "./App.css";
+import "./styles/index.scss";
 import Button from "./components/Button/button";
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <Button>123</Button>
-
-        {/* <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p> */}
-        {/* <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a> */}
-      </header>
+    <div style={{ padding: 20 }}>
+      <Button style={{ marginRight: 20 }}>default</Button>
+      <Button btnType="primary" style={{ marginRight: 20 }}>
+        primary
+      </Button>
+      <Button btnType="danger" style={{ marginRight: 20 }}>
+        danger
+      </Button>
+      <Button btnType="link" href="www.baidu.com">
+        link
+      </Button>
     </div>
   );
 }

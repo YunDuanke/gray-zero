@@ -23,8 +23,15 @@ type AnchorButtonProps = BaseButtonProps & AnchorHTMLAttributes<HTMLElement>; //
 export type ButtonProps = Partial<NativeButtonProps & AnchorButtonProps>; // ts高级类型Partial: 用于将对象类型中的所有属性变为可选属性
 
 export const Button: FC<ButtonProps> = (props) => {
-  const { btnType, className, size, children, href, disabled, ...restProps } =
-    props;
+  const {
+    btnType = "default",
+    className,
+    size,
+    children,
+    href,
+    disabled = false,
+    ...restProps
+  } = props;
   // btn, btn-lg, btn-primary
   const classes = classNames("btn", className, {
     [`btn-${btnType}`]: btnType,
@@ -44,11 +51,6 @@ export const Button: FC<ButtonProps> = (props) => {
       </button>
     );
   }
-};
-
-Button.defaultProps = {
-  disabled: false,
-  btnType: "default",
 };
 
 export default Button;

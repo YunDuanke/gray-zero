@@ -5,7 +5,6 @@ import classNames from "classnames";
 export type ButtonSize = "lg" | "sm";
 export type ButtonType = "primary" | "default" | "danger" | "link";
 
-// 定义props接口
 interface BaseButtonProps {
   className?: string;
   /**设置 Button 的禁用 */
@@ -20,8 +19,16 @@ interface BaseButtonProps {
 
 type NativeButtonProps = BaseButtonProps & ButtonHTMLAttributes<HTMLElement>; //定义button的类型 联合React自带的button属性
 type AnchorButtonProps = BaseButtonProps & AnchorHTMLAttributes<HTMLElement>; //定义a标签的类型 联合React自带的a标签属性
-export type ButtonProps = Partial<NativeButtonProps & AnchorButtonProps>; // ts高级类型Partial: 用于将对象类型中的所有属性变为可选属性
+export type ButtonProps = Partial<NativeButtonProps & AnchorButtonProps>;
 
+/**
+ * 页面中最常用的的按钮元素，适合于完成特定的交互，支持 HTML button 和 a 链接 的所有属性
+ * ### 引用方法
+ *
+ * ```javascript
+ * import { Button } from 'gray-zero'
+ * ```
+ */
 export const Button: FC<ButtonProps> = (props) => {
   const {
     btnType = "default",

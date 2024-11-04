@@ -1,7 +1,11 @@
 import type { Preview } from "@storybook/react";
 import "../src/styles/index.scss";
+import { library } from "@fortawesome/fontawesome-svg-core";
+import { fas } from "@fortawesome/free-solid-svg-icons";
 
-const preview: Preview = {
+library.add(fas);
+
+export const preview: Preview = {
   parameters: {
     controls: {
       matchers: {
@@ -12,5 +16,3 @@ const preview: Preview = {
   },
   tags: ["autodocs"],
 };
-
-export default preview;

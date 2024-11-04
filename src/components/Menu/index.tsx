@@ -3,9 +3,6 @@ import Menu from "./menu";
 import { MenuProps } from "./menu";
 import SubMenu, { SubMenuProps } from "./subMenu";
 import MenuItem, { MenuItemProps } from "./menuItem";
-import { library } from "@fortawesome/fontawesome-svg-core";
-import { fas } from "@fortawesome/free-solid-svg-icons";
-library.add(fas);
 
 export type IMenuComponent = FC<MenuProps> & {
   Item: FC<MenuItemProps>;

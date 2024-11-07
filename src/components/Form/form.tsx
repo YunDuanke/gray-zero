@@ -1,19 +1,81 @@
-import { FC, ReactNode } from "react";
+import {
+  ReactNode,
+  createContext,
+  forwardRef,
+  useImperativeHandle,
+} from "react";
+import { ValidateError } from "async-validator";
+import useStore, { FormState } from "./useStore";
 
+export type RenderProps = (form: FormState) => ReactNode;
 export interface FormProps {
-  /** label */
+  /** 表单名称，会作为表单字段 id 前缀使用 */
   name?: string;
-  /** label */
-  children?: ReactNode;
+  /** 表单默认值，只有初始化以及重置时生效 */
+  initialValues?: Record<string, any>;
+  children?: ReactNode | RenderProps;
+  /** 提交表单且数据验证成功后回调事件 */
+  onFinish?: (values: Record<string, any>) => void;
+  /** 提交表单且数据验证失败后回调事件 */
+  onFinishFailed?: (
+    values: Record<string, any>,
+    errors: Record<string, ValidateError[]>
+  ) => void;
 }
 
-export const Form: FC<FormProps> = (props) => {
-  const { name, children } = props;
+// 上下文传递useReducer给chilren-类型定义(pick挑选要传递的属性)
+export type IFormContext = Pick<
+  ReturnType<typeof useStore>,
+  "dispatch" | "fields" | "validateField"
+> &
+  Pick<FormProps, "initialValues">;
+
+export type IFormRef = Omit<
+  ReturnType<typeof useStore>,
+  "fields" | "dispatch" | "form"
+>;
+export const FormContext = createContext<IFormContext>({} as IFormContext);
+
+export const Form = forwardRef<IFormRef, FormProps>((props, ref) => {
+  const { name, children, initialValues, onFinish, onFinishFailed } = props;
+  const { form, fields, dispatch, ...restProps } = useStore(initialValues)
+  const { validateField, validateAllFields } = restProps
+  // forwardRef&useImperativeHandle组合，定制化ref上的方法
+  useImperativeHandle(ref, () => {
+    return {
+      ...restProps
+    }
+  })
+  const passedContext: IFormContext = {
+    dispatch,
+    fields,
+    initialValues,
+    validateField
+  }
+  const submitForm = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+    e.stopPropagation()
+    const { isValid, errors, values } = await validateAllFields()
+    if (isValid && onFinish) {
+      onFinish(values)
+    } else if(!isValid && onFinishFailed) {
+      onFinishFailed(values, errors)
+    }
+  }
+  let childrenNode: ReactNode
+  if (typeof children === 'function') {
+    childrenNode = children(form)
+  } else {
+    childrenNode = children
+  }
+
   return (
-    <form name={name} className="viking-form">
-      {children}
+    <form name={name} className="viking-form" onSubmit={submitForm}>
+      <FormContext.Provider value={passedContext}>
+        {childrenNode}
+      </FormContext.Provider>
     </form>
-  );
-};
+  )
+});
 
 export default Form;

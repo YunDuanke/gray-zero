@@ -7,7 +7,7 @@
  * ### 引用方法
  *
  * ~~~js
- * import { Icon } from 'vikingship'
+ * import { Icon } from 'gray-zero'
  * ~~~
  */
 

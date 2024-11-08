@@ -1,4 +1,4 @@
-import React from "react";
+import { ComponentType } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import Form from "./form";
 import Item from "./formItem";
@@ -10,7 +10,7 @@ const meta: Meta<typeof Form> = {
   id: "Form",
   component: Form,
   tags: ["autodocs"],
-  // subcomponents: { Item: Item }, //👈 Adds the ListItem component as a subcomponent
+  subcomponents: { Item: Item }, //👈 Adds the ListItem component as a subcomponent
 };
 
 export default meta;
@@ -19,10 +19,10 @@ type Story = StoryObj<typeof Form>;
 export const Default: Story = {
   render: (args) => (
     <Form {...args}>
-      <Item label="用户名">
+      <Item name="username" label="用户名">
         <Input />
       </Item>
-      <Item label="密码">
+      <Item name="password" label="密码">
         <Input type="password" />
       </Item>
       <div className="viking-form-submit-area">

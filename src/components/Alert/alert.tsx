@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import React, { FC, useState } from "react";
 import classNames from "classnames";
 import Icon from "../Icon";
 import Transition from "../Transition";

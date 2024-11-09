@@ -1,4 +1,4 @@
-import { FC, useRef, ChangeEvent, useState } from "react";
+import React, { FC, useRef, ChangeEvent, useState } from "react";
 import axios from "axios";
 import UploadList from "./uploadList";
 import Dragger from "./dragger";

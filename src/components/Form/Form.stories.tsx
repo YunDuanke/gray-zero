@@ -1,4 +1,3 @@
-import { ComponentType } from "react";
 import type { Meta, StoryObj } from "@storybook/react";
 import Form from "./form";
 import Item from "./formItem";

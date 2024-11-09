@@ -26,11 +26,11 @@ export const FormItem: FC<FormItemProps> = (props) => {
     label,
     children,
     name,
-    valuePropName,
-    trigger,
-    getValueFromEvent,
+    valuePropName = 'value',
+    trigger = 'onChange',
+    getValueFromEvent = (e) => e.target.value,
     rules,
-    validateTrigger
+    validateTrigger = 'onBlur'
   } = props as SomeRequired<FormItemProps, 'getValueFromEvent' | 'trigger' | 'valuePropName' | 'validateTrigger'>
   const { dispatch, fields, initialValues, validateField } = useContext(FormContext)
   const rowClass = classNames('viking-row', {
@@ -39,6 +39,7 @@ export const FormItem: FC<FormItemProps> = (props) => {
   useEffect(() => {
     const value = (initialValues && initialValues[name]) || ''
     dispatch({ type: 'addField', name, value: { label, name, value, rules: rules || [], errors: [], isValid: true }})
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
   // 获取store 对应的 value
   const fieldState = fields[name]
@@ -110,10 +111,4 @@ export const FormItem: FC<FormItemProps> = (props) => {
   )
 }
 
-FormItem.defaultProps = {
-  valuePropName: 'value',
-  trigger: 'onChange',
-  validateTrigger: 'onBlur',
-  getValueFromEvent: (e) => e.target.value
-}
 export default FormItem

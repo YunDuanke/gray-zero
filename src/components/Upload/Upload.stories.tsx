@@ -3,7 +3,7 @@ import type { Meta, StoryObj } from "@storybook/react";
 import { action } from "@storybook/addon-actions";
 import { fn } from "@storybook/test";
 import Upload from "./upload";
-import Icon from "../Icon/icon";
+import Icon from "../Icon/icon"; 
 
 const meta = {
   title: "Upload",
